@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Flickr Search Demo</title>
+    <script data-require="angular.js@1.5.6" data-semver="1.5.6" src="js/angular.1.5.6.js"></script>
+    <script src="app.js"></script>
+</head>
+
+<body>
+<div>
+    <h1>Flickr Searcher</h1>
+    <p>Search Flickr tags</p>
+</div>
+<div ng-controller="MainController as vm">
+    <form ng-submit="vm.search(vm.keyword)">
+        <h2 ng-if="vm.searching" style="color:green">Searching....</h2>
+        <h5 ng-if="vm.search.error && !vm.searching">An error occured during the search - {{vm.search.error}}</h5>
+        <h5 ng-if="!vm.search.error && vm.search.results.total && vm.keyword === vm.search.keyword">Your search for {{vm.search.keyword}} returned {{vm.search.results.total ? vm.search.results.total : 0}} images</h5>
+        <input type="text" name="keyword" ng-model="vm.keyword" title="Enter a search term" required="" oninvalid="this.setCustomValidity('Enter a search term')" />
+        <input type="submit" value="Submit" id="submit" />
+
+    </form>
+    <ul>
+        <li ng-repeat="photo in vm.search.results" ng-if="vm.keyword === vm.search.keyword">
+            <img ng-src='https://farm{{photo.farm}}.staticflickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}.jpg' />
+        </li>
+    </ul>
+</div>
+</body>
+
+</html>
